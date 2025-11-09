@@ -1,0 +1,18 @@
+name: CustomPotions
+author: IIInitiationnn
+main: xyz.iiinitiationnn.custompotions.Main
+version: 1.0
+api-version: 1.13
+
+commands:
+  custompotions:
+    aliases: [cp]
+    description: Allows you to create custom potions using brewing recipes.
+
+permissions:
+  custompotions.reload:
+    default: op
+  custompotions.modify:
+    default: op
+  custompotions.brew:
+    default: true

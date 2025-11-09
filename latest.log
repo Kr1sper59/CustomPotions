@@ -1,0 +1,236 @@
+[12:38:29] [ServerMain/INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.7+6-LTS; Azul Systems, Inc. Zulu21.42+19-CA) on Linux 6.8.0-71-generic (amd64)
+[12:38:29] [ServerMain/INFO]: [bootstrap] Loading Purpur 1.21.8-2497-HEAD@a49cdb9 (2025-09-19T01:51:04Z) for Minecraft 1.21.8
+[12:38:30] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[12:38:32] [ServerMain/ERROR]: [DirectoryProviderSource] Error preparing plugin context: Directory 'plugins/custompotions-1.0.jar' failed to update!
+java.lang.RuntimeException: Directory 'plugins/custompotions-1.0.jar' failed to update!
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.prepareContext(FileProviderSource.java:61) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.DirectoryProviderSource.lambda$prepareContext$1(DirectoryProviderSource.java:33) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[?:?]
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179) ~[?:?]
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197) ~[?:?]
+	at java.base/java.util.Iterator.forEachRemaining(Iterator.java:133) ~[?:?]
+	at java.base/java.util.Spliterators$IteratorSpliterator.forEachRemaining(Spliterators.java:1939) ~[?:?]
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509) ~[?:?]
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499) ~[?:?]
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[?:?]
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[?:?]
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[?:?]
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596) ~[?:?]
+	at io.papermc.paper.plugin.provider.source.DirectoryProviderSource.walkFiles(DirectoryProviderSource.java:64) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.DirectoryProviderSource.prepareContext(DirectoryProviderSource.java:31) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.DirectoryProviderSource.prepareContext(DirectoryProviderSource.java:17) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.util.EntrypointUtil.registerProvidersFromSource(EntrypointUtil.java:14) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.PluginInitializerManager.load(PluginInitializerManager.java:113) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at net.minecraft.server.Main.main(Main.java:119) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.PaperBootstrap.boot(PaperBootstrap.java:21) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at org.bukkit.craftbukkit.Main.main(Main.java:250) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paperclip.Paperclip.lambda$main$0(Paperclip.java:42) ~[app:?]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[?:?]
+Caused by: org.bukkit.plugin.InvalidPluginException: java.lang.IllegalArgumentException: plugins/custompotions-1.0.jar does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.checkUpdate(FileProviderSource.java:141) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.prepareContext(FileProviderSource.java:59) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	... 22 more
+Caused by: java.lang.IllegalArgumentException: plugins/custompotions-1.0.jar does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.getPluginName(FileProviderSource.java:150) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.checkUpdate(FileProviderSource.java:111) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.prepareContext(FileProviderSource.java:59) ~[purpur-1.21.8.jar:1.21.8-2497-a49cdb9]
+	... 22 more
+[12:38:32] [Paper Plugin Remapper Thread - 0/INFO]: [PluginRemapper] Remapping plugin 'plugins/SkinsRestorer (1).jar'...
+[12:38:37] [Paper Plugin Remapper Thread - 0/INFO]: [PluginRemapper] Done remapping plugin 'plugins/SkinsRestorer (1).jar' in 4704ms.
+[12:38:39] [ServerMain/INFO]: [PluginInitializerManager] Initialized 18 plugins
+[12:38:39] [ServerMain/INFO]: [PluginInitializerManager] Paper plugins (2):
+ - FancyNpcs (2.7.1), emotecraft (3.0.0-b.build.122)
+[12:38:39] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (16):
+ - AFK (1.3), AdvancedPortals (2.5.0), AxiomPaper (5.0.1+1.21.8), DeluxeHub (3.6.4), Female-Gender-Mod-Plugin (1.4.3.1), GSit (2.4.3), InvisibleFrames (1.2.2), LuckPerms (5.5.0), PlaceholderAPI (2.11.6), ProtocolLib (5.4.0), SkinShufflePlugin (0.1.0+1.21), SkinsRestorer (15.8.1), TAB (5.2.0), ajParkour (2.12.10), voicechat (2.6.1), voicemessages (1.0.8)
+[12:38:49] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[12:38:50] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[12:38:51] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 1,304.1ms
+[12:38:54] [ServerMain/INFO]: Loaded 1407 recipes
+[12:38:54] [ServerMain/INFO]: Loaded 1520 advancements
+[12:38:55] [Server thread/INFO]: Starting minecraft server version 1.21.8
+[12:38:55] [Server thread/INFO]: Loading properties
+[12:38:55] [Server thread/INFO]: This server is running Purpur version 1.21.8-2497-HEAD@a49cdb9 (2025-09-19T01:51:04Z) (Implementing API version 1.21.8-R0.1-SNAPSHOT)
+[12:38:55] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[12:38:55] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[12:38:55] [Server thread/INFO]: Using 4 threads for Netty based IO
+[12:38:56] [Server thread/INFO]: [MoonriseCommon] Paper is using 1 worker threads, 1 I/O threads
+[12:38:56] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using population gen parallelism: true
+[12:38:57] [Server thread/INFO]: Default game type: ADVENTURE
+[12:38:57] [Server thread/INFO]: Generating keypair
+[12:38:57] [Server thread/INFO]: Starting Minecraft server on 0.0.0.0:15067
+[12:38:57] [Server thread/INFO]: Using epoll channel type
+[12:38:57] [Server thread/INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[12:38:57] [Server thread/INFO]: Paper: Using OpenSSL 1.1.x (Linux x86_64) cipher from Velocity.
+[12:38:58] [Server thread/INFO]: [PlaceholderAPI] Loading server plugin PlaceholderAPI v2.11.6
+[12:38:58] [Server thread/INFO]: [voicechat] Loading server plugin voicechat v2.6.1
+[12:38:58] [Server thread/INFO]: [ProtocolLib] Loading server plugin ProtocolLib v5.4.0
+[12:38:59] [Server thread/INFO]: [LuckPerms] Loading server plugin LuckPerms v5.5.0
+[12:39:00] [Server thread/INFO]: [AFK] Loading server plugin AFK v1.3
+[12:39:00] [Server thread/INFO]: [voicemessages] Loading server plugin voicemessages v1.0.8
+[12:39:00] [Server thread/INFO]: [ajParkour] Loading server plugin ajParkour v2.12.10
+[12:39:00] [Server thread/INFO]: [AxiomPaper] Loading server plugin AxiomPaper v5.0.1+1.21.8
+[12:39:00] [Server thread/INFO]: [GSit] Loading server plugin GSit v2.4.3
+[12:39:00] [Server thread/INFO]: [DeluxeHub] Loading server plugin DeluxeHub v3.6.4
+[12:39:00] [Server thread/INFO]: [FancyNpcs] Loading server plugin FancyNpcs v2.7.1
+[12:39:00] [Server thread/INFO]: [emotecraft] Loading server plugin emotecraft v3.0.0-b.build.122
+[12:39:00] [Server thread/INFO]: [Emotecraft] Loading Emotecraft as a paper plugin...
+[12:39:00] [Server thread/INFO]: [Invisible Frames] Loading server plugin InvisibleFrames v1.2.2
+[12:39:00] [Server thread/INFO]: [AdvancedPortals] Loading server plugin AdvancedPortals v2.5.0
+[12:39:00] [Server thread/INFO]: [SkinsRestorer] Loading server plugin SkinsRestorer v15.8.1
+[12:39:00] [Server thread/INFO]: [TAB] Loading server plugin TAB v5.2.0
+[12:39:00] [Server thread/INFO]: [Female-Gender-Mod-Plugin] Loading server plugin Female-Gender-Mod-Plugin v1.4.3.1
+[12:39:00] [Server thread/INFO]: [SkinShuffle] Loading server plugin SkinShufflePlugin v0.1.0+1.21
+[12:39:00] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[12:39:00] [Server thread/INFO]: [ProtocolLib] Enabling ProtocolLib v5.4.0
+[12:39:00] [Server thread/INFO]: [LuckPerms] Enabling LuckPerms v5.5.0
+[12:39:01] [Server thread/INFO]:         __    
+[12:39:01] [Server thread/INFO]:   |    |__)   LuckPerms v5.5.0
+[12:39:01] [Server thread/INFO]:   |___ |      Running on Bukkit - Purpur
+[12:39:01] [Server thread/INFO]: 
+[12:39:01] [Server thread/INFO]: [LuckPerms] Loading configuration...
+[12:39:02] [Server thread/INFO]: [LuckPerms] Loading storage provider... [H2]
+[12:39:03] [Server thread/INFO]: [LuckPerms] Loading internal permission managers...
+[12:39:03] [Server thread/INFO]: [LuckPerms] Performing initial data load...
+[12:39:04] [Server thread/INFO]: [LuckPerms] Successfully enabled. (took 3607ms)
+[12:39:04] [Server thread/INFO]: [SkinsRestorer] Enabling SkinsRestorer v15.8.1
+[12:39:05] [Server thread/INFO]: [SkinsRestorer] -------------------------/Warning\-------------------------
+[12:39:05] [Server thread/INFO]: [SkinsRestorer] This plugin is running in PROXY mode!
+[12:39:05] [Server thread/INFO]: [SkinsRestorer] You have to put the same config.yml on all servers and on the proxy.
+[12:39:05] [Server thread/INFO]: [SkinsRestorer] (<proxy>/plugins/SkinsRestorer/)
+[12:39:05] [Server thread/INFO]: [SkinsRestorer] -------------------------\Warning/-------------------------
+[12:39:06] [Server thread/INFO]: [SkinsRestorer] Running on Minecraft 1.21.8.
+[12:39:08] [Server thread/INFO]: [SkinsRestorer] Connected to MySQL!
+[12:39:08] [Server thread/INFO]: [PlaceholderAPI] Successfully registered internal expansion: skinsrestorer [15.8.1]
+[12:39:08] [Server thread/INFO]: [SkinsRestorer] PlaceholderAPI expansion registered!
+[12:39:08] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[12:39:08] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[12:39:08] [Server thread/WARN]: Whilst this makes it possible to use Velocity, unless access to your server is properly restricted, it also opens up the ability for hackers to connect with any username they choose.
+[12:39:08] [Server thread/WARN]: Please see https://docs.papermc.io/velocity/security for further information.
+[12:39:08] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[12:39:08] [Server thread/INFO]: Preparing level "world"
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] ----------------------------------------------
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     +==================+
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     |   SkinsRestorer  |
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     |------------------|
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     |    Proxy Mode    |
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     +==================+
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] ----------------------------------------------
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     Version: 15.8.1
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     Commit: bd509cd
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer]     A new version (15.8.2) is available! Downloading update...
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] ----------------------------------------------
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] Do you have issues? Read our troubleshooting guide: https://skinsrestorer.net/docs/troubleshooting
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] Want to support SkinsRestorer? Consider donating: https://skinsrestorer.net/donate
+[12:39:08] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] [GitHubUpdate] Downloading update...
+[12:39:09] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] [GitHubUpdate] Downloaded update in 708ms
+[12:39:09] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] [GitHubUpdate] Update saved as SkinsRestorer (1).jar
+[12:39:09] [Folia Async Scheduler Thread #1/INFO]: [SkinsRestorer] [GitHubUpdate] The update will be loaded on the next server restart
+[12:39:09] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[12:39:09] [Server thread/INFO]: Preparing spawn area: 0%
+[12:39:10] [Server thread/INFO]: Preparing spawn area: 4%
+[12:39:10] [Server thread/INFO]: Preparing spawn area: 79%
+[12:39:10] [Server thread/INFO]: Time elapsed: 1188 ms
+[12:39:10] [Server thread/INFO]: [PlaceholderAPI] Enabling PlaceholderAPI v2.11.6
+[12:39:11] [Server thread/INFO]: [PlaceholderAPI] Fetching available expansion information...
+[12:39:11] [Server thread/INFO]: [voicechat] Enabling voicechat v2.6.1
+[12:39:11] [Server thread/INFO]: [voicechat] Initializing compatibility for version 1.21.8-R0.1
+[12:39:11] [Server thread/INFO]: [voicechat] Compatibility version 20
+[12:39:11] [Server thread/INFO]: [voicechat] Successfully initialized commodore command completion
+[12:39:11] [Server thread/INFO]: [PlaceholderAPI] Successfully registered internal expansion: voicechat [2.6.1]
+[12:39:11] [Server thread/INFO]: [voicechat] Successfully registered PlaceholderAPI expansion
+[12:39:11] [Server thread/INFO]: [AFK] Enabling AFK v1.3
+[12:39:11] [Server thread/INFO]: [PlaceholderAPI] Successfully registered internal expansion: afk [1.2]
+[12:39:11] [Server thread/INFO]: [voicemessages] Enabling voicemessages v1.0.8
+[12:39:11] [Server thread/INFO]: [ajParkour] Enabling ajParkour v2.12.10
+[12:39:12] [Server thread/INFO]: [PlaceholderAPI] Successfully registered internal expansion: ajpk [2.12.10]
+[12:39:12] [Server thread/INFO]: ajParkour v2.12.10 by ajgeiss0702 has been enabled!
+[12:39:12] [Server thread/INFO]: [AxiomPaper] Enabling AxiomPaper v5.0.1+1.21.8
+[12:39:12] [Server thread/INFO]: [GSit] Enabling GSit v2.4.3
+[12:39:12] [Server thread/INFO]: [PlaceholderAPI] Successfully registered internal expansion: gsit [2.4.3]
+[12:39:13] [Server thread/INFO]: [GSit] The plugin was successfully enabled.
+[12:39:13] [Server thread/INFO]: [GSit] Link with PlaceholderAPI successful!
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Enabling DeluxeHub v3.6.4
+[12:39:13] [Server thread/INFO]: [DeluxeHub]  _   _            _          _    _ 
+[12:39:13] [Server thread/INFO]: [DeluxeHub] | \ |_ |  | | \/ |_ |_| | | |_)   _)
+[12:39:13] [Server thread/INFO]: [DeluxeHub] |_/ |_ |_ |_| /\ |_ | | |_| |_)   _)
+[12:39:13] [Server thread/INFO]: [DeluxeHub] 
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Version: 3.6.4
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Author: ItsLewizzz
+[12:39:13] [Server thread/INFO]: [DeluxeHub] 
+[12:39:13] [Server thread/INFO]: [DeluxeHub]  Hooked into PlaceholderAPI
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Loaded custom menu 'bar'.
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Loaded custom menu 'Islands'.
+[12:39:13] [Server thread/INFO]: [DeluxeHub] Loaded custom menu 'serverselector'.
+[12:39:14] [Server thread/WARN]: [DeluxeHub] Inventory with name 'bar.yml' already exists, skipping duplicate..
+[12:39:14] [Server thread/WARN]: [DeluxeHub] Inventory with name 'Islands.yml' already exists, skipping duplicate..
+[12:39:14] [Server thread/WARN]: [DeluxeHub] Inventory with name 'serverselector.yml' already exists, skipping duplicate..
+[12:39:14] [Server thread/INFO]: [NBTAPI] [NBTAPI] Found Minecraft: 1.21.8! Trying to find NMS support
+[12:39:14] [Server thread/INFO]: [NBTAPI] [NBTAPI] NMS support 'MC1_21_R5' loaded!
+[12:39:14] [Server thread/INFO]: [NBTAPI] [NBTAPI] Using the plugin 'DeluxeHub' to create a bStats instance!
+[12:39:14] [Server thread/INFO]: [DeluxeHub] Loaded 14 plugin modules.
+[12:39:14] [Server thread/INFO]: [DeluxeHub] 
+[12:39:14] [Server thread/INFO]: [DeluxeHub] Successfully loaded in 1282ms
+[12:39:14] [Server thread/INFO]: [FancyNpcs] Enabling FancyNpcs v2.7.1
+[12:39:14] [Server thread/WARN]: [org.mineskin.MineSkinClient] Creating MineSkinClient without API key
+[12:39:14] [Thread-15/WARN]: [FancyNpcs] 
+-------------------------------------------------------
+You are not using the latest version of the FancyNpcs plugin.
+Please update to the newest version (2.8.0).
+https://modrinth.com/plugin/FancyNpcs
+-------------------------------------------------------
+
+[12:39:14] [FancyLogger/INFO]: [FancyNpcs] (Thread-15) WARN: You are not using the latest version of the FancyNpcs plugin.
+[12:39:15] [FancyLogger/INFO]: [FancyNpcs] (Server thread) INFO: FancyNpcs (2.7.1) has been enabled.
+[12:39:15] [Server thread/INFO]: [emotecraft] Enabling emotecraft v3.0.0-b.build.122
+[12:39:15] [Server thread/INFO]: [Invisible Frames] Enabling InvisibleFrames v1.2.2
+[12:39:15] [Server thread/INFO]: [Invisible Frames] ItemsAdder API has not been found, ItemsAdder checks are disabled.
+[12:39:15] [Server thread/INFO]: [AdvancedPortals] Enabling AdvancedPortals v2.5.0
+[12:39:15] [Server thread/INFO]: [AdvancedPortals] Loading Advanced Portals Core v2.5.0 for MC: 1.21.8
+[12:39:16] [Server thread/INFO]: [AdvancedPortals] Advanced portals have been enabled!
+[12:39:16] [Server thread/INFO]: [TAB] Enabling TAB v5.2.0
+[12:39:16] [Server thread/INFO]: [TAB] Loaded NMS hook in 97ms
+[12:39:17] [Server thread/INFO]: [TAB] Enabled in 699ms
+[12:39:17] [Server thread/INFO]: [Female-Gender-Mod-Plugin] Enabling Female-Gender-Mod-Plugin v1.4.3.1
+[12:39:17] [Server thread/INFO]: [Female-Gender-Mod-Plugin] By @dbrighthd, with contributions from @stigstille and @winnpixie
+[12:39:17] [Server thread/INFO]: [Female-Gender-Mod-Plugin] Using protocol 4 for mod version(s) 4.0.1 - ?.?.?
+[12:39:17] [Server thread/INFO]: [SkinShuffle] Enabling SkinShufflePlugin v0.1.0+1.21
+[12:39:17] [Server thread/INFO]: [dev.imb11.skinshuffle.SkinShufflePlugin] SkinShuffle plugin enabled
+[12:39:18] [Server thread/INFO]: [spark] Starting background profiler...
+[12:39:18] [Server thread/INFO]: [PlaceholderAPI] Placeholder expansion registration initializing...
+[12:39:18] [Server thread/INFO]: Done preparing level "world" (10.020s)
+[12:39:18] [Server thread/INFO]: Running delayed init tasks
+[12:39:18] [Server thread/INFO]: [PlaceholderAPI] Successfully registered external expansion: bungee [2.3]
+[12:39:18] [Server thread/INFO]: [PlaceholderAPI] Successfully registered external expansion: server [2.7.3]
+[12:39:18] [Server thread/INFO]: 2 placeholder hook(s) registered!
+[12:39:18] [Server thread/INFO]: Done (50.318s)! For help, type "help"
+[12:39:18] [Server thread/INFO]: [voicechat] Loading plugins
+[12:39:18] [Server thread/INFO]: [voicechat] Loaded 0 plugin(s)
+[12:39:18] [Server thread/INFO]: [voicechat] Initializing plugins
+[12:39:18] [Server thread/INFO]: [voicechat] Initialized 0 plugin(s)
+[12:39:18] [Server thread/WARN]: [voicechat] Running in offline mode - Voice chat encryption is not secure!
+[12:39:18] [VoiceChatServerThread/INFO]: [voicechat] Using server-ip as bind address: 0.0.0.0
+[12:39:18] [VoiceChatServerThread/INFO]: [voicechat] Voice chat server started at 0.0.0.0:15498
+[12:39:19] [Craft Scheduler Thread - 2 - ajParkour/INFO]: [ajParkour] You are up to date! (2.12.10)
+[12:39:28] [FancyLogger/INFO]: [FancyNpcs] (FancyNpcs-Skins-3) INFO: Updated skin for NPC: chupeep
+[12:39:31] [FancyLogger/INFO]: [FancyNpcs] (FancyNpcs-Skins-1) INFO: Updated skin for NPC: ventel
+[12:39:35] [FancyLogger/INFO]: [FancyNpcs] (FancyNpcs-Skins-1) INFO: Updated skin for NPC: mishke_frede
+[12:39:38] [FancyLogger/INFO]: [FancyNpcs] (FancyNpcs-Skins-0) INFO: Updated skin for NPC: barmeeeen
+[12:39:41] [FancyLogger/INFO]: [FancyNpcs] (FancyNpcs-Skins-0) ERROR: Error in mineskin request: java.net.SocketTimeoutException: Read timed out
+[12:40:41] [User Authenticator #0/INFO]: UUID of player Kr1sper_ is d7607b4e-a822-42f2-ad29-262ac3c2774c
+[12:40:41] [Server thread/INFO]: [HorriblePlayerLoginEventHack] You have plugins listening to the PlayerLoginEvent, this will cause re-configuration APIs to be unavailable: [LuckPerms, ProtocolLib]
+[12:40:43] [Server thread/INFO]: [dev.imb11.skinshuffle.SkinShufflePlugin] Trying to send skinshuffle handshake to player: Kr1sper_
+[12:40:43] [Server thread/INFO]: [Female-Gender-Mod-Plugin] Syncing Kr1sper_
+[12:40:43] [Server thread/INFO]: Kr1sper_[IP hidden] logged in with entity id 12 at ([world]4200164.5, -3.0, 4200143.5)
+[12:40:44] [Server thread/INFO]: [dev.imb11.skinshuffle.SkinShufflePlugin] Send packet!
+[12:40:44] [Server thread/INFO]: [voicechat] Received secret request of Kr1sper_ (20)
+[12:40:44] [Server thread/INFO]: [voicechat] Sent secret to Kr1sper_
+[12:40:45] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully authenticated player d7607b4e-a822-42f2-ad29-262ac3c2774c
+[12:40:46] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Successfully validated connection of player d7607b4e-a822-42f2-ad29-262ac3c2774c
+[12:40:46] [VoiceChatPacketProcessingThread/INFO]: [voicechat] Player Kr1sper_ (d7607b4e-a822-42f2-ad29-262ac3c2774c) successfully connected to voice chat
+[12:41:24] [Server thread/INFO]: Kr1sper_ issued server command: /pl
+[12:41:31] [Server thread/INFO]: ℹ Server Plugins (18):
+[12:41:31] [Server thread/INFO]: Paper Plugins (2):
+[12:41:31] [Server thread/INFO]:  - emotecraft, FancyNpcs
+[12:41:31] [Server thread/INFO]: Bukkit Plugins (16):
+[12:41:31] [Server thread/INFO]:  - AdvancedPortals, AFK, ajParkour, AxiomPaper, DeluxeHub, Female-Gender-Mod-Plugin, GSit, InvisibleFrames, LuckPerms, PlaceholderAPI
+[12:41:31] [Server thread/INFO]:  ProtocolLib, SkinShufflePlugin, SkinsRestorer, TAB, voicechat, voicemessages
