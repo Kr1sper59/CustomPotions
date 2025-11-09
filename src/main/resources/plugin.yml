@@ -1,8 +1,8 @@
 name: CustomPotions
-author: IIInitiationnn
-main: xyz.iiinitiationnn.custompotions.Main
+author: Kr1sper
+main: com.cmeworld.hastepotion.HastePotionPlugin
 version: 1.0
-api-version: 1.13
+api-version: 1.20
 
 commands:
   custompotions:

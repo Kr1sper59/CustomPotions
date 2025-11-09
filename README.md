@@ -1,5 +1,5 @@
 # CustomPotions
-[Releases](https://github.com/IIInitiationnn/CustomPotions/releases)
+[Releases](https://github.com/Kr1sper59/CustomPotions/releases)
 
 A Bukkit plugin to create custom potions using brewing recipes.
 
