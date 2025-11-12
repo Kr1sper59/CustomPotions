@@ -125,40 +125,36 @@ public class PotionUtil {
                 if (typeName.equals("UNCRAFTABLE"))
                     continue;
 
-                // In newer versions, LONG_* and STRONG_* are separate types, not flags
+                // In newer versions (1.21+), LONG_* and STRONG_* are separate types that cannot be used directly
+                // They should be created using base types with extended/upgraded flags instead
+                // So we skip them here and only create base types with flags
                 boolean isLong = typeName.startsWith("LONG_");
                 boolean isStrong = typeName.startsWith("STRONG_");
                 
-                // Only create standard version for base types (not LONG_* or STRONG_*)
-                if (!isLong && !isStrong) {
-                    potions.add(constructVanillaPotion(potionType, type, false, false));
+                if (isLong || isStrong) {
+                    // Skip LONG_* and STRONG_* types - they cannot be used directly in PotionData
+                    continue;
+                }
+                
+                // Create standard version
+                ItemStack standard = constructVanillaPotion(potionType, type, false, false);
+                if (standard != null) {
+                    potions.add(standard);
+                }
 
-                    // Only try to extend/upgrade if the type supports it
-                    // and it's not already a LONG_* or STRONG_* variant
-                    try {
-                        if (type.isExtendable()) {
-                            potions.add(constructVanillaPotion(potionType, type, true, false));
-                        }
-                    } catch (Exception e) {
-                        // Some types may not support extending in newer versions
-                        Main.logWarning("Could not create extended version of " + typeName + ": " + e.getMessage());
+                // Create extended version if supported
+                if (type.isExtendable()) {
+                    ItemStack extended = constructVanillaPotion(potionType, type, true, false);
+                    if (extended != null) {
+                        potions.add(extended);
                     }
+                }
 
-                    try {
-                        if (type.isUpgradeable()) {
-                            potions.add(constructVanillaPotion(potionType, type, false, true));
-                        }
-                    } catch (Exception e) {
-                        // Some types may not support upgrading in newer versions
-                        Main.logWarning("Could not create upgraded version of " + typeName + ": " + e.getMessage());
-                    }
-                } else {
-                    // For LONG_* and STRONG_* types, create them as standard (they are already extended/upgraded)
-                    try {
-                        potions.add(constructVanillaPotion(potionType, type, false, false));
-                    } catch (Exception e) {
-                        // Skip if this type cannot be created
-                        Main.logWarning("Could not create potion type " + typeName + ": " + e.getMessage());
+                // Create upgraded version if supported
+                if (type.isUpgradeable()) {
+                    ItemStack upgraded = constructVanillaPotion(potionType, type, false, true);
+                    if (upgraded != null) {
+                        potions.add(upgraded);
                     }
                 }
             }
@@ -207,8 +203,10 @@ public class PotionUtil {
 
     public static ItemStack constructVanillaPotion(Material potionType, PotionType type, boolean extended, boolean upgraded) {
         ItemStack vanillaPotion = new ItemStack(potionType);
-        setBasePotionData(vanillaPotion, type, extended, upgraded);
-        return vanillaPotion;
+        if (setBasePotionData(vanillaPotion, type, extended, upgraded)) {
+            return vanillaPotion;
+        }
+        return null; // Return null if failed to set potion data
     }
 
     /**
@@ -248,8 +246,12 @@ public class PotionUtil {
      */
     public static List<String> getVanillaPotionIds() {
         List<String> ids = new ArrayList<>();
-        for (ItemStack vanillaPotion : getVanillaPotions())
-            ids.add(getIdFromVanillaPotion(vanillaPotion));
+        for (ItemStack vanillaPotion : getVanillaPotions()) {
+            String id = getIdFromVanillaPotion(vanillaPotion);
+            if (id != null && !id.isEmpty()) {
+                ids.add(id);
+            }
+        }
         return ids;
     }
 
@@ -267,7 +269,12 @@ public class PotionUtil {
             return "";
         }
 
-        PotionData data =  meta.getBasePotionData();
+        PotionData data = meta.getBasePotionData();
+        if (data == null) {
+            Main.logWarning("PotionData is null for potion " + vanillaPotion.getType().name() + ". Skipping...");
+            return "";
+        }
+
         String id = vanillaPotion.getType().name();
         id += VANILLA_ID_DELIMITER + data.getType().name();
         if (data.isExtended()) {
@@ -297,9 +304,23 @@ public class PotionUtil {
             return null;
         }
 
-        PotionType potionEffectType = PotionType.valueOf(getPotionEffectType(potionID));
+        PotionType potionEffectType;
+        try {
+            potionEffectType = PotionType.valueOf(getPotionEffectType(potionID));
+        } catch (IllegalArgumentException e) {
+            Main.logSevere("The potion effect type was invalid when constructing a vanilla potion from its ID: " + getPotionEffectType(potionID));
+            return null;
+        }
+        
         if (!Arrays.asList(PotionType.values()).contains(potionEffectType)) {
             Main.logSevere("The potion effect type was invalid when constructing a vanilla potion from its ID.");
+            return null;
+        }
+
+        // Check if it's a LONG_* or STRONG_* type - these cannot be used directly
+        String typeName = potionEffectType.name();
+        if (typeName.startsWith("LONG_") || typeName.startsWith("STRONG_")) {
+            Main.logWarning("Cannot create potion with LONG_* or STRONG_* type directly: " + typeName);
             return null;
         }
 
@@ -415,41 +436,44 @@ public class PotionUtil {
         potion.setItemMeta(meta);
     }
 
-    public static void setBasePotionData(ItemStack potion, PotionType type, boolean extended, boolean upgraded) {
+    public static boolean setBasePotionData(ItemStack potion, PotionType type, boolean extended, boolean upgraded) {
         if (!isPotion((potion)))
-            return;
+            return false;
 
         PotionMeta meta = (PotionMeta) potion.getItemMeta();
         if (meta == null) {
             Main.logSevere("There was an error retrieving the item metadata when setting base potion data.");
-            return;
+            return false;
         }
         
-        // In newer versions, LONG_* and STRONG_* types cannot be used with extended/upgraded flags
+        // In newer versions, LONG_* and STRONG_* types cannot be used directly
         String typeName = type.name();
         boolean isLong = typeName.startsWith("LONG_");
         boolean isStrong = typeName.startsWith("STRONG_");
         
-        // If it's already a LONG_* or STRONG_* type, don't use extended/upgraded flags
+        // If it's a LONG_* or STRONG_* type, we cannot use it directly
         if (isLong || isStrong) {
-            extended = false;
-            upgraded = false;
+            return false;
         }
         
         try {
             meta.setBasePotionData(new PotionData(type, extended, upgraded));
             potion.setItemMeta(meta);
+            return true;
         } catch (IllegalArgumentException e) {
             // If creating with extended/upgraded fails, try without flags
             if (extended || upgraded) {
                 try {
                     meta.setBasePotionData(new PotionData(type, false, false));
                     potion.setItemMeta(meta);
+                    return true;
                 } catch (IllegalArgumentException e2) {
-                    Main.logWarning("Could not set potion data for type " + typeName + ": " + e2.getMessage());
+                    // Failed completely
+                    return false;
                 }
             } else {
-                Main.logWarning("Could not set potion data for type " + typeName + ": " + e.getMessage());
+                // Failed completely
+                return false;
             }
         }
     }
