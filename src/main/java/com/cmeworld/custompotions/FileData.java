@@ -28,16 +28,28 @@ public class FileData {
     }
 
     public void reloadData() {
+        // Ensure data folder exists
+        File dataFolder = this.pluginInstance.getDataFolder();
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
         // Save default file if it does not exist
         File file = new File(this.filePath);
         if (!file.exists()) {
-            try {
-                Writer writer = new FileWriter(this.filePath);
-                writer.write("[]");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Try to save default file from resources
+            if (this.pluginInstance.getResource("potions.json") != null) {
+                this.pluginInstance.saveResource("potions.json", false);
+            } else {
+                // If no default file exists, create empty array
+                try {
+                    Writer writer = new FileWriter(this.filePath);
+                    writer.write("[]");
+                    writer.flush();
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

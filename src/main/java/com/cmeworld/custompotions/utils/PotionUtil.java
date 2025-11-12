@@ -120,8 +120,13 @@ public class PotionUtil {
 
         for (Material potionType : threeTypes) {
             for (PotionType type : PotionType.values()) {
-                if (type == PotionType.UNCRAFTABLE)
-                    continue;
+                // UNCRAFTABLE was removed in newer Minecraft versions
+                try {
+                    if (type.name().equals("UNCRAFTABLE"))
+                        continue;
+                } catch (Exception e) {
+                    // Ignore if field doesn't exist
+                }
 
                 potions.add(constructVanillaPotion(potionType, type, false, false));
 
