@@ -121,20 +121,46 @@ public class PotionUtil {
         for (Material potionType : threeTypes) {
             for (PotionType type : PotionType.values()) {
                 // UNCRAFTABLE was removed in newer Minecraft versions
-                try {
-                    if (type.name().equals("UNCRAFTABLE"))
-                        continue;
-                } catch (Exception e) {
-                    // Ignore if field doesn't exist
+                String typeName = type.name();
+                if (typeName.equals("UNCRAFTABLE"))
+                    continue;
+
+                // In newer versions, LONG_* and STRONG_* are separate types, not flags
+                boolean isLong = typeName.startsWith("LONG_");
+                boolean isStrong = typeName.startsWith("STRONG_");
+                
+                // Only create standard version for base types (not LONG_* or STRONG_*)
+                if (!isLong && !isStrong) {
+                    potions.add(constructVanillaPotion(potionType, type, false, false));
+
+                    // Only try to extend/upgrade if the type supports it
+                    // and it's not already a LONG_* or STRONG_* variant
+                    try {
+                        if (type.isExtendable()) {
+                            potions.add(constructVanillaPotion(potionType, type, true, false));
+                        }
+                    } catch (Exception e) {
+                        // Some types may not support extending in newer versions
+                        Main.logWarning("Could not create extended version of " + typeName + ": " + e.getMessage());
+                    }
+
+                    try {
+                        if (type.isUpgradeable()) {
+                            potions.add(constructVanillaPotion(potionType, type, false, true));
+                        }
+                    } catch (Exception e) {
+                        // Some types may not support upgrading in newer versions
+                        Main.logWarning("Could not create upgraded version of " + typeName + ": " + e.getMessage());
+                    }
+                } else {
+                    // For LONG_* and STRONG_* types, create them as standard (they are already extended/upgraded)
+                    try {
+                        potions.add(constructVanillaPotion(potionType, type, false, false));
+                    } catch (Exception e) {
+                        // Skip if this type cannot be created
+                        Main.logWarning("Could not create potion type " + typeName + ": " + e.getMessage());
+                    }
                 }
-
-                potions.add(constructVanillaPotion(potionType, type, false, false));
-
-                if (type.isExtendable())
-                    potions.add(constructVanillaPotion(potionType, type, true, false));
-
-                if (type.isUpgradeable())
-                    potions.add(constructVanillaPotion(potionType, type, false, true));
             }
         }
         return potions;
@@ -398,8 +424,34 @@ public class PotionUtil {
             Main.logSevere("There was an error retrieving the item metadata when setting base potion data.");
             return;
         }
-        meta.setBasePotionData(new PotionData(type, extended, upgraded));
-        potion.setItemMeta(meta);
+        
+        // In newer versions, LONG_* and STRONG_* types cannot be used with extended/upgraded flags
+        String typeName = type.name();
+        boolean isLong = typeName.startsWith("LONG_");
+        boolean isStrong = typeName.startsWith("STRONG_");
+        
+        // If it's already a LONG_* or STRONG_* type, don't use extended/upgraded flags
+        if (isLong || isStrong) {
+            extended = false;
+            upgraded = false;
+        }
+        
+        try {
+            meta.setBasePotionData(new PotionData(type, extended, upgraded));
+            potion.setItemMeta(meta);
+        } catch (IllegalArgumentException e) {
+            // If creating with extended/upgraded fails, try without flags
+            if (extended || upgraded) {
+                try {
+                    meta.setBasePotionData(new PotionData(type, false, false));
+                    potion.setItemMeta(meta);
+                } catch (IllegalArgumentException e2) {
+                    Main.logWarning("Could not set potion data for type " + typeName + ": " + e2.getMessage());
+                }
+            } else {
+                Main.logWarning("Could not set potion data for type " + typeName + ": " + e.getMessage());
+            }
+        }
     }
 
     /**
