@@ -23,12 +23,18 @@ public class InventoryGUIListener implements Listener {
         if (inv == null || interaction == null || interaction.getItemMeta() == null || event.getCurrentItem() == null) {
             return;
         }
+        String localizedName = ItemStackUtil.getLocalizedName(interaction);
+        if (localizedName == null || localizedName.isEmpty()) {
+            // Not a custom potion GUI item
+            return;
+        }
+        
         State state;
         try {
-            state = State.decodeFromString(ItemStackUtil.getLocalizedName(interaction));
+            state = State.decodeFromString(localizedName);
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            // Not a State class
+            // Not a State class or corrupted data - silently ignore
+            // This is normal for non-GUI items
             return;
         }
         Main.log.info("Action: " + state.getAction() + "; Menu: " + state.getClass().getSimpleName());

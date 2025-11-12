@@ -10,7 +10,7 @@
     "type": "POTION",
     "recipes": [
       {
-        "ingredient": "EMERALD",
+        "ingredient": "BLAZE_ROD",
         "base": "POTION-AWKWARD-STANDARD",
         "result": "haste-potion-1"
       }
@@ -34,7 +34,7 @@
     "type": "POTION",
     "recipes": [
       {
-        "ingredient": "EMERALD",
+        "ingredient": "GLOWSTONE_DUST",
         "base": "haste-potion-1",
         "result": "haste-potion-2"
       }
@@ -70,6 +70,149 @@
         "amplifier": 0
       }
     ]
+  },
+  {
+    "potionId": "haste-splash-1",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eВзрывное зелье Спешки",
+    "type": "SPLASH_POTION",
+    "recipes": [
+      {
+        "ingredient": "GUNPOWDER",
+        "base": "haste-potion-1",
+        "result": "haste-splash-1"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 3600,
+        "amplifier": 0
+      }
+    ]
+  },
+  {
+    "potionId": "haste-splash-2",
+    "colour": {
+      "r": 255,
+      "g": 180,
+      "b": 0
+    },
+    "name": "eВзрывноезелье Спешки",
+    "type": "SPLASH_POTION",
+    "recipes": [
+      {
+        "ingredient": "GUNPOWDER",
+        "base": "haste-potion-2",
+        "result": "haste-splash-2"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 1800,
+        "amplifier": 1
+      }
+    ]
+  },
+  {
+    "potionId": "haste-splash-extended",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eРазбрызгивающееся Зелье Спешки (Расширенное)",
+    "type": "SPLASH_POTION",
+    "recipes": [
+      {
+        "ingredient": "GUNPOWDER",
+        "base": "haste-potion-extended",
+        "result": "haste-splash-extended"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 9600,
+        "amplifier": 0
+      }
+    ]
+  },
+  {
+    "potionId": "haste-lingering-1",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eЗатяжное Зелье Спешки",
+    "type": "LINGERING_POTION",
+    "recipes": [
+      {
+        "ingredient": "DRAGON_BREATH",
+        "base": "haste-splash-1",
+        "result": "haste-lingering-1"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 900,
+        "amplifier": 0
+      }
+    ]
+  },
+  {
+    "potionId": "haste-lingering-2",
+    "colour": {
+      "r": 255,
+      "g": 180,
+      "b": 0
+    },
+    "name": "§eЗатяжное Зелье Спешки II",
+    "type": "LINGERING_POTION",
+    "recipes": [
+      {
+        "ingredient": "DRAGON_BREATH",
+        "base": "haste-splash-2",
+        "result": "haste-lingering-2"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 450,
+        "amplifier": 1
+      }
+    ]
+  },
+  {
+    "potionId": "haste-lingering-extended",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eЗатяжное Зелье Спешки (Расширенное)",
+    "type": "LINGERING_POTION",
+    "recipes": [
+      {
+        "ingredient": "DRAGON_BREATH",
+        "base": "haste-splash-extended",
+        "result": "haste-lingering-extended"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 2400,
+        "amplifier": 0
+      }
+    ]
   }
 ]
-

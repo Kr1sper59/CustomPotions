@@ -31,7 +31,6 @@ com/cmeworld/custompotions/states/EffectAmplifierMenu.class
 com/cmeworld/custompotions/gui/GUI.class
 com/cmeworld/custompotions/states/MainMenu.class
 com/cmeworld/custompotions/Actions.class
-com/cmeworld/custompotions/Actions$1.class
 com/cmeworld/custompotions/Actions$ExitUnsavedAction.class
 com/cmeworld/custompotions/inventorytypes/ChestConfirmInventory.class
 com/cmeworld/custompotions/states/RecipeIngredientMenu.class

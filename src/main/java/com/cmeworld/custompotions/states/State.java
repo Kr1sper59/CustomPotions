@@ -422,12 +422,28 @@ public abstract class State implements Cloneable, Serializable {
      * Constructs a state from a Bukkit ItemStack's localized name.
      */
     public static State decodeFromString(String localizedName) throws IOException, ClassNotFoundException {
-        byte[] byteData = Base64.getDecoder().decode(localizedName);
-        ByteArrayInputStream byteIn = new ByteArrayInputStream(byteData);
-        ObjectInputStream objectIn = new ObjectInputStream(byteIn);
-        State state = (State) objectIn.readObject();
-        objectIn.close();
-        return state;
+        if (localizedName == null || localizedName.isEmpty()) {
+            throw new IOException("LocalizedName is null or empty");
+        }
+        
+        try {
+            byte[] byteData = Base64.getDecoder().decode(localizedName);
+            if (byteData == null || byteData.length == 0) {
+                throw new IOException("Decoded byte array is null or empty");
+            }
+            
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(byteData);
+            ObjectInputStream objectIn = new ObjectInputStream(byteIn);
+            State state = (State) objectIn.readObject();
+            objectIn.close();
+            return state;
+        } catch (IllegalArgumentException e) {
+            // Invalid Base64 string
+            throw new IOException("Invalid Base64 string: " + e.getMessage(), e);
+        } catch (java.io.EOFException e) {
+            // Empty or corrupted data
+            throw new IOException("Corrupted or empty state data: " + e.getMessage(), e);
+        }
     }
 
 

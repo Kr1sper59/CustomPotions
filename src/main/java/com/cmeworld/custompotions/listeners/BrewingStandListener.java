@@ -11,10 +11,20 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import com.cmeworld.custompotions.LivePotionRecipe;
 import com.cmeworld.custompotions.Main;
+import com.cmeworld.custompotions.Potion;
+import com.cmeworld.custompotions.PotionRecipe;
 import com.cmeworld.custompotions.utils.PotionUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrewingStandListener implements Listener {
+    private final Main plugin;
+    
+    public BrewingStandListener(Main plugin) {
+        this.plugin = plugin;
+    }
 
     private void updateInventory(InventoryClickEvent event) {
         ((Player) event.getWhoClicked()).updateInventory();
@@ -203,5 +213,54 @@ public class BrewingStandListener implements Listener {
                 }
             }
         }
+        
+        // Check for recipes and start brewing after ingredient is placed
+        if (event.getAction() == InventoryAction.PLACE_ALL || 
+            event.getAction() == InventoryAction.PLACE_ONE ||
+            event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY ||
+            (event.getAction() == InventoryAction.NOTHING && brewerInventory.getIngredient() != null)) {
+            // Schedule check after inventory updates
+            plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                checkAndStartBrewing(brewerInventory);
+            }, 1L);
+        }
+    }
+    
+    private void checkAndStartBrewing(BrewerInventory inventory) {
+        if (inventory.getIngredient() == null) return;
+        
+        // Convert PotionRecipe to LivePotionRecipe
+        List<LivePotionRecipe> liveRecipes = convertRecipesToLive();
+        
+        // Check if there's a matching recipe
+        LivePotionRecipe recipe = LivePotionRecipe.getRecipe(inventory, liveRecipes, plugin);
+        if (recipe != null && inventory.getHolder().getBrewingTime() == 0) {
+            recipe.startBrewing(inventory, plugin, liveRecipes);
+        }
+    }
+    
+    private List<LivePotionRecipe> convertRecipesToLive() {
+        List<LivePotionRecipe> liveRecipes = new ArrayList<>();
+        List<Potion> customPotions = PotionUtil.getCustomPotions();
+        
+        plugin.getLogger().info("Converting recipes to live. Found " + customPotions.size() + " custom potions");
+        
+        int index = 0;
+        for (Potion potion : customPotions) {
+            ItemStack result = potion.toItemStack();
+            plugin.getLogger().info("Processing potion: " + potion.getName() + " with " + potion.getRecipes().size() + " recipes");
+            for (PotionRecipe recipe : potion.getRecipes()) {
+                ItemStack base = PotionUtil.potionFromId(recipe.getBase());
+                if (base != null) {
+                    plugin.getLogger().info("Created live recipe: ingredient=" + recipe.getIngredient() + ", base=" + recipe.getBase() + ", result=" + potion.getPotionId());
+                    liveRecipes.add(new LivePotionRecipe(result, base, recipe.getIngredient(), index++));
+                } else {
+                    plugin.getLogger().warning("Could not create base potion from ID: " + recipe.getBase());
+                }
+            }
+        }
+        
+        plugin.getLogger().info("Total live recipes created: " + liveRecipes.size());
+        return liveRecipes;
     }
 }

@@ -28,6 +28,8 @@ public class LivePotionRecipe {
 
     @Nullable
     public static LivePotionRecipe getRecipe(BrewerInventory inventory, List<LivePotionRecipe> recipes, Main pluginInstance) {
+        if (inventory.getIngredient() == null) return null;
+        
         boolean allAir = true;
         for (int i = 0; i < 3 && allAir; i++) {
             if (inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR) continue;
@@ -36,13 +38,30 @@ public class LivePotionRecipe {
         if (allAir) return null;
 
         Material ingredient = inventory.getIngredient().getType();
+        pluginInstance.getLogger().info("Looking for recipe with ingredient: " + ingredient);
 
         for (LivePotionRecipe recipe : recipes) {
+            pluginInstance.getLogger().info("Checking recipe: ingredient=" + recipe.getIngredient() + ", has " + recipes.size() + " total recipes");
             for (int i = 0; i < 3; i++) {
-                if (ingredient == recipe.getIngredient() && recipe.predecessor.isSimilar(inventory.getItem(i))) return recipe;
+                ItemStack slotItem = inventory.getItem(i);
+                if (slotItem == null || slotItem.getType() == Material.AIR) continue;
+                
+                if (ingredient == recipe.getIngredient()) {
+                    pluginInstance.getLogger().info("Ingredient matches! Checking potion in slot " + i + ": " + slotItem);
+                    pluginInstance.getLogger().info("Predecessor: " + recipe.predecessor);
+                    
+                    // Use PotionUtil.arePotionsSimilar instead of isSimilar to compare only potion type and base data
+                    boolean matches = com.cmeworld.custompotions.utils.PotionUtil.arePotionsSimilar(recipe.predecessor, slotItem);
+                    pluginInstance.getLogger().info("Potion comparison check: " + matches);
+                    
+                    if (matches) {
+                        pluginInstance.getLogger().info("Recipe found! Starting brewing...");
+                        return recipe;
+                    }
+                }
             }
         }
-        pluginInstance.getLogger().info("no recipe found");
+        pluginInstance.getLogger().info("no recipe found for ingredient " + ingredient);
         return null;
     }
 
@@ -79,7 +98,7 @@ public class LivePotionRecipe {
                     if (inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR) continue;
                     for (LivePotionRecipe r : recipes) {
                         if (r.ingredient != ingredient.getType()) continue;
-                        if (inventory.getItem(i).isSimilar(r.predecessor)) {
+                        if (com.cmeworld.custompotions.utils.PotionUtil.arePotionsSimilar(inventory.getItem(i), r.predecessor)) {
                             inventory.setItem(i, r.result);
                             break;
                         }

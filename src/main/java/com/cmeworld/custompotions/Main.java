@@ -40,7 +40,7 @@ public class Main extends JavaPlugin {
         this.saveDefaultConfig();
 
         PluginManager pm = getServer().getPluginManager();
-        BrewingStandListener brewingStandListener = new BrewingStandListener();
+        BrewingStandListener brewingStandListener = new BrewingStandListener(this);
         InventoryGUIListener inventoryGUIListener = new InventoryGUIListener();
         pm.registerEvents(brewingStandListener, this);
         pm.registerEvents(inventoryGUIListener, this);

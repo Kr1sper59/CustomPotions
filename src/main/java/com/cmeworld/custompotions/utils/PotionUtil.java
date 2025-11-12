@@ -102,6 +102,33 @@ public class PotionUtil {
     }
 
     /**
+     * Compares two potions by their type and base potion data, ignoring other metadata.
+     * This is useful for recipe matching where we only care about the potion type and base data.
+     */
+    public static boolean arePotionsSimilar(ItemStack potion1, ItemStack potion2) {
+        if (potion1 == null || potion2 == null) return false;
+        if (!isPotion(potion1) || !isPotion(potion2)) return false;
+        
+        // Check material type
+        if (potion1.getType() != potion2.getType()) return false;
+        
+        PotionMeta meta1 = (PotionMeta) potion1.getItemMeta();
+        PotionMeta meta2 = (PotionMeta) potion2.getItemMeta();
+        
+        if (meta1 == null || meta2 == null) return false;
+        
+        PotionData data1 = meta1.getBasePotionData();
+        PotionData data2 = meta2.getBasePotionData();
+        
+        if (data1 == null || data2 == null) return false;
+        
+        // Compare base potion data
+        return data1.getType() == data2.getType() &&
+               data1.isExtended() == data2.isExtended() &&
+               data1.isUpgraded() == data2.isUpgraded();
+    }
+
+    /**
      * Returns a list of all valid custom potions in potions.json
      */
     public static List<Potion> getCustomPotions() {
