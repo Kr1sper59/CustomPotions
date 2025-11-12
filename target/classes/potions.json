@@ -1,0 +1,75 @@
+[
+  {
+    "potionId": "haste-potion-1",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eЗелье Спешки",
+    "type": "POTION",
+    "recipes": [
+      {
+        "ingredient": "EMERALD",
+        "base": "POTION-AWKWARD-STANDARD",
+        "result": "haste-potion-1"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 3600,
+        "amplifier": 0
+      }
+    ]
+  },
+  {
+    "potionId": "haste-potion-2",
+    "colour": {
+      "r": 255,
+      "g": 180,
+      "b": 0
+    },
+    "name": "§eЗелье Спешки",
+    "type": "POTION",
+    "recipes": [
+      {
+        "ingredient": "EMERALD",
+        "base": "haste-potion-1",
+        "result": "haste-potion-2"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 1800,
+        "amplifier": 1
+      }
+    ]
+  },
+  {
+    "potionId": "haste-potion-extended",
+    "colour": {
+      "r": 255,
+      "g": 200,
+      "b": 0
+    },
+    "name": "§eЗелье Спешки",
+    "type": "POTION",
+    "recipes": [
+      {
+        "ingredient": "REDSTONE",
+        "base": "haste-potion-1",
+        "result": "haste-potion-extended"
+      }
+    ],
+    "effects": [
+      {
+        "type": "FAST_DIGGING",
+        "duration": 9600,
+        "amplifier": 0
+      }
+    ]
+  }
+]
+
