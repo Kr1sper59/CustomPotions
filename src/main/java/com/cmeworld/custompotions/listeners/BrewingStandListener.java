@@ -15,6 +15,7 @@ import com.cmeworld.custompotions.LivePotionRecipe;
 import com.cmeworld.custompotions.Main;
 import com.cmeworld.custompotions.Potion;
 import com.cmeworld.custompotions.PotionRecipe;
+import com.cmeworld.custompotions.utils.ItemStackUtil;
 import com.cmeworld.custompotions.utils.PotionUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +110,10 @@ public class BrewingStandListener implements Listener {
             // Shift click from player inventory
             if (inventoryAction == InventoryAction.MOVE_TO_OTHER_INVENTORY) {
                 if (slotItem == null || PotionUtil.isPotion(slotItem)) return;
+                if (!willAllowIngredient(brewerInventory, slotItem.getType())) {
+                    event.setCancelled(true);
+                    return;
+                }
                 ItemStack ingredient = brewerInventory.getIngredient();
 
                 // Inserting blaze powder
@@ -153,6 +158,10 @@ public class BrewingStandListener implements Listener {
             if (inventoryAction == InventoryAction.PLACE_ALL
                 || inventoryAction == InventoryAction.PICKUP_ALL && event.isLeftClick()) {
                 if (cursorItem == null || PotionUtil.isPotion(cursorItem)) return;
+                if (!willAllowIngredient(brewerInventory, cursorItem.getType())) {
+                    event.setCancelled(true);
+                    return;
+                }
                 ItemStack ingredient = brewerInventory.getIngredient();
 
                 // Empty ingredient slot, insert item
@@ -172,6 +181,10 @@ public class BrewingStandListener implements Listener {
             else if (inventoryAction == InventoryAction.PLACE_ONE
                 || event.isRightClick() && inventoryAction == InventoryAction.PICKUP_ALL) {
                 if (cursorItem == null || PotionUtil.isPotion(cursorItem)) return;
+                if (!willAllowIngredient(brewerInventory, cursorItem.getType())) {
+                    event.setCancelled(true);
+                    return;
+                }
                 ItemStack ingredient = brewerInventory.getIngredient();
 
                 // Empty ingredient slot, insert an item
@@ -193,6 +206,10 @@ public class BrewingStandListener implements Listener {
             // it as a valid item, therefore returning a "NOTHING" action type.
             else if (inventoryAction == InventoryAction.NOTHING) {
                 if (cursorItem == null || PotionUtil.isPotion(cursorItem)) return;
+                if (!willAllowIngredient(brewerInventory, cursorItem.getType())) {
+                    event.setCancelled(true);
+                    return;
+                }
                 ItemStack ingredient = brewerInventory.getIngredient();
                 if (ingredient == null) return;
 
@@ -243,24 +260,67 @@ public class BrewingStandListener implements Listener {
         List<LivePotionRecipe> liveRecipes = new ArrayList<>();
         List<Potion> customPotions = PotionUtil.getCustomPotions();
         
-        plugin.getLogger().info("Converting recipes to live. Found " + customPotions.size() + " custom potions");
+        if (Main.isDebugEnabledStatic()) {
+            plugin.getLogger().info("Converting recipes to live. Found " + customPotions.size() + " custom potions");
+        }
         
         int index = 0;
         for (Potion potion : customPotions) {
             ItemStack result = potion.toItemStack();
-            plugin.getLogger().info("Processing potion: " + potion.getName() + " with " + potion.getRecipes().size() + " recipes");
+            if (Main.isDebugEnabledStatic()) {
+                plugin.getLogger().info("Processing potion: " + potion.getName() + " with " + potion.getRecipes().size() + " recipes");
+            }
             for (PotionRecipe recipe : potion.getRecipes()) {
                 ItemStack base = PotionUtil.potionFromId(recipe.getBase());
                 if (base != null) {
-                    plugin.getLogger().info("Created live recipe: ingredient=" + recipe.getIngredient() + ", base=" + recipe.getBase() + ", result=" + potion.getPotionId());
+                    if (Main.isDebugEnabledStatic()) {
+                        plugin.getLogger().info("Created live recipe: ingredient=" + recipe.getIngredient() + ", base=" + recipe.getBase() + ", result=" + potion.getPotionId());
+                    }
                     liveRecipes.add(new LivePotionRecipe(result, base, recipe.getIngredient(), index++));
                 } else {
-                    plugin.getLogger().warning("Could not create base potion from ID: " + recipe.getBase());
+                    if (Main.isDebugEnabledStatic()) {
+                        plugin.getLogger().warning("Could not create base potion from ID: " + recipe.getBase());
+                    }
                 }
             }
         }
         
-        plugin.getLogger().info("Total live recipes created: " + liveRecipes.size());
+        if (Main.isDebugEnabledStatic()) {
+            plugin.getLogger().info("Total live recipes created: " + liveRecipes.size());
+        }
         return liveRecipes;
+    }
+
+    private boolean containsCustomPotionWithId(BrewerInventory inventory) {
+        for (int i = 0; i < 3; i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item == null || !PotionUtil.isPotion(item)) continue;
+            String localized = ItemStackUtil.getLocalizedName(item);
+            if (localized != null && !localized.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean willAllowIngredient(BrewerInventory inventory, Material ingredient) {
+        if (ingredient == null) return false;
+
+        // If no custom potions present, allow vanilla behaviour.
+        if (!containsCustomPotionWithId(inventory)) return true;
+
+        List<LivePotionRecipe> liveRecipes = convertRecipesToLive();
+        for (LivePotionRecipe recipe : liveRecipes) {
+            if (recipe.getIngredient() != ingredient) continue;
+            for (int i = 0; i < 3; i++) {
+                ItemStack slotItem = inventory.getItem(i);
+                if (slotItem == null || slotItem.getType() == Material.AIR) continue;
+                if (PotionUtil.arePotionsSimilar(slotItem, recipe.predecessor)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

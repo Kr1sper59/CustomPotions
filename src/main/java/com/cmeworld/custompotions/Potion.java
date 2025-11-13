@@ -81,6 +81,7 @@ public class Potion implements Serializable, Cloneable {
         ItemStack potion = new ItemStack(this.type);
         PotionUtil.setColor(potion, this.colour);
         ItemStackUtil.setDisplayName(potion, this.name);
+        ItemStackUtil.setLocalizedName(potion, this.potionId);
         PotionUtil.setEffects(potion, this.effects);
         return potion;
     } // TODO version of this method which also applies the state to the localized name NVM dont

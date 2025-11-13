@@ -3,6 +3,7 @@ package com.cmeworld.custompotions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import com.cmeworld.custompotions.utils.PotionUtil;
 
 import java.io.File;
@@ -106,7 +107,29 @@ public class FileData {
 
                     validRecipes.add(potionRecipe);
                 }
-                potion.setRecipes(validRecipes);
+                // Prevent combining glowstone dust and redstone on the same potion
+                List<PotionRecipe> filteredRecipes = new ArrayList<>();
+                boolean hasGlowstoneRecipe = false;
+                boolean hasRedstoneRecipe = false;
+                for (PotionRecipe recipe : validRecipes) {
+                    Material ingredient = recipe.getIngredient();
+                    if (ingredient == Material.GLOWSTONE_DUST) {
+                        if (hasRedstoneRecipe) {
+                            Main.logWarning(name + ChatColor.RESET + " already has a Redstone recipe. Skipping the Glowstone recipe to prevent combining upgrades.");
+                            continue;
+                        }
+                        hasGlowstoneRecipe = true;
+                    } else if (ingredient == Material.REDSTONE) {
+                        if (hasGlowstoneRecipe) {
+                            Main.logWarning(name + ChatColor.RESET + " already has a Glowstone recipe. Skipping the Redstone recipe to prevent combining upgrades.");
+                            continue;
+                        }
+                        hasRedstoneRecipe = true;
+                    }
+                    filteredRecipes.add(recipe);
+                }
+
+                potion.setRecipes(filteredRecipes);
 
                 Main.logInfo("Successfully added " + name + ChatColor.RESET + " to the game.");
 

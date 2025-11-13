@@ -9,6 +9,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import com.cmeworld.custompotions.utils.ItemStackUtil;
+
 public class LivePotionRecipe {
     public ItemStack result;
     public ItemStack predecessor;
@@ -38,30 +40,47 @@ public class LivePotionRecipe {
         if (allAir) return null;
 
         Material ingredient = inventory.getIngredient().getType();
-        pluginInstance.getLogger().info("Looking for recipe with ingredient: " + ingredient);
+        if (Main.isDebugEnabledStatic()) {
+            pluginInstance.getLogger().info("Looking for recipe with ingredient: " + ingredient);
+        }
 
         for (LivePotionRecipe recipe : recipes) {
-            pluginInstance.getLogger().info("Checking recipe: ingredient=" + recipe.getIngredient() + ", has " + recipes.size() + " total recipes");
+            if (Main.isDebugEnabledStatic()) {
+                pluginInstance.getLogger().info("Checking recipe: ingredient=" + recipe.getIngredient() + ", has " + recipes.size() + " total recipes");
+            }
             for (int i = 0; i < 3; i++) {
                 ItemStack slotItem = inventory.getItem(i);
                 if (slotItem == null || slotItem.getType() == Material.AIR) continue;
                 
                 if (ingredient == recipe.getIngredient()) {
-                    pluginInstance.getLogger().info("Ingredient matches! Checking potion in slot " + i + ": " + slotItem);
-                    pluginInstance.getLogger().info("Predecessor: " + recipe.predecessor);
+                    if (Main.isDebugEnabledStatic()) {
+                        pluginInstance.getLogger().info("Ingredient matches! Checking potion in slot " + i + ": " + slotItem);
+                    }
+                    String slotId = ItemStackUtil.getLocalizedName(slotItem);
+                    String predecessorId = ItemStackUtil.getLocalizedName(recipe.predecessor);
+                    if (Main.isDebugEnabledStatic()) {
+                        pluginInstance.getLogger().info("Predecessor: " + recipe.predecessor);
+                        pluginInstance.getLogger().info("Slot localized id: " + slotId + "; Predecessor localized id: " + predecessorId);
+                    }
                     
                     // Use PotionUtil.arePotionsSimilar instead of isSimilar to compare only potion type and base data
                     boolean matches = com.cmeworld.custompotions.utils.PotionUtil.arePotionsSimilar(recipe.predecessor, slotItem);
-                    pluginInstance.getLogger().info("Potion comparison check: " + matches);
+                    if (Main.isDebugEnabledStatic()) {
+                        pluginInstance.getLogger().info("Potion comparison check: " + matches);
+                    }
                     
                     if (matches) {
-                        pluginInstance.getLogger().info("Recipe found! Starting brewing...");
+                        if (Main.isDebugEnabledStatic()) {
+                            pluginInstance.getLogger().info("Recipe found! Starting brewing...");
+                        }
                         return recipe;
                     }
                 }
             }
         }
-        pluginInstance.getLogger().info("no recipe found for ingredient " + ingredient);
+        if (Main.isDebugEnabledStatic()) {
+            pluginInstance.getLogger().info("no recipe found for ingredient " + ingredient);
+        }
         return null;
     }
 
@@ -109,7 +128,9 @@ public class LivePotionRecipe {
             }
 
             if (inventory.getIngredient() == null) {
-                pluginInstance.getLogger().info("ingredient is null");
+                if (Main.isDebugEnabledStatic()) {
+                    pluginInstance.getLogger().info("ingredient is null");
+                }
                 cancel();
                 return;
             }
@@ -128,7 +149,9 @@ public class LivePotionRecipe {
                 } else {
                     brewingStand.setFuelLevel(inventory.getHolder().getFuelLevel() - 1);
                 }
-                pluginInstance.getLogger().info("starting brew");
+                if (Main.isDebugEnabledStatic()) {
+                    pluginInstance.getLogger().info("starting brew");
+                }
                 brewingStand.setBrewingTime(400);
             }
 

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class Main extends JavaPlugin {
     public static Logger log;
     public static FileData fileData;
+    private static Main instance;
 
     // TODO
     //  potentially playing around with lore for potion effects to show the correct potency, and time in day:hour:minute:second if applicable
@@ -33,6 +34,7 @@ public class Main extends JavaPlugin {
      */
     @Override
     public void onEnable() {
+        instance = this;
         log = this.getLogger();
         log.info("Initialising CustomPotions and validating potions.");
 
@@ -64,6 +66,18 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         log.info("CustomPotions has been disabled.");
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public boolean isDebugEnabled() {
+        return this.getConfig().getBoolean("debug.enabled", false);
+    }
+
+    public static boolean isDebugEnabledStatic() {
+        return instance != null && instance.isDebugEnabled();
     }
 
     public static void logInfo(String string) {

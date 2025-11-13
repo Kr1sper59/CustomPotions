@@ -109,6 +109,13 @@ public class PotionUtil {
         if (potion1 == null || potion2 == null) return false;
         if (!isPotion(potion1) || !isPotion(potion2)) return false;
         
+        // If both potions have a localized name (used for custom potion IDs), compare them first.
+        String id1 = ItemStackUtil.getLocalizedName(potion1);
+        String id2 = ItemStackUtil.getLocalizedName(potion2);
+        if (id1 != null && !id1.isEmpty() && id2 != null && !id2.isEmpty()) {
+            return Objects.equals(id1, id2);
+        }
+        
         // Check material type
         if (potion1.getType() != potion2.getType()) return false;
         
@@ -122,10 +129,28 @@ public class PotionUtil {
         
         if (data1 == null || data2 == null) return false;
         
-        // Compare base potion data
-        return data1.getType() == data2.getType() &&
-               data1.isExtended() == data2.isExtended() &&
-               data1.isUpgraded() == data2.isUpgraded();
+        if (data1.getType() != data2.getType() ||
+            data1.isExtended() != data2.isExtended() ||
+            data1.isUpgraded() != data2.isUpgraded()) {
+            return false;
+        }
+        
+        // Compare custom effects
+        List<PotionEffect> effects1 = meta1.getCustomEffects();
+        List<PotionEffect> effects2 = meta2.getCustomEffects();
+        if (effects1.size() != effects2.size()) return false;
+        outer:
+        for (PotionEffect effect1 : effects1) {
+            for (PotionEffect effect2 : effects2) {
+                if (effect1.getType().equals(effect2.getType()) &&
+                    effect1.getAmplifier() == effect2.getAmplifier() &&
+                    effect1.getDuration() == effect2.getDuration()) {
+                    continue outer;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
