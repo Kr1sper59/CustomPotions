@@ -11,24 +11,6 @@ public class Main extends JavaPlugin {
     public static Logger log;
     public static FileData fileData;
     private static Main instance;
-
-    // TODO
-    //  potentially playing around with lore for potion effects to show the correct potency, and time in day:hour:minute:second if applicable
-    //  maybe in the distant future add presets like splash from existing or whatever
-    //  handle weird gunpowder and dragons breath shenanigans??
-    //  two predecessors cannot have same ingredients in helperRecipe ie. when loading from data (how we gonna initialise)
-    //  right click potion in select menu to clone it
-    //  when doing cp info, maybe find all potions which use it as a predecessor
-    //  dont allow ESC to exit from nonanvil menus
-    //  notify server when new version is available
-    //  parse effect duration eg. seconds, minutes, ticks like Audacious' events
-    //  whenever "There was an error" put : instead of . and then print the trace
-    //  instant damage: skip duration????
-    //  when changing lingering <-> normal / splash, adjust the durations of all effects accordingly instead of letting it x4 or /4
-    //  - new "colours.yml" file where they can customise colours
-    //  - prevent closing of main inventory
-    //  - log the input of the state; check that it is being maintained correctly
-
     /**
      * Startup & initialisation.
      */
