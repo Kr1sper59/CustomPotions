@@ -93,7 +93,7 @@ CustomPotions - это плагин, разработанный специаль
 
 ```bash
 # Клонируйте репозиторий
-git clone <https://github.com/Kr1sper59/CustomPotions>
+git clone https://github.com/Kr1sper59/CustomPotions
 cd CustomPotions
 
 # Соберите проект
